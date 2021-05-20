@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { FormattedMessage } from 'react-intl'
 import { useQuery } from 'react-apollo'
 
 import { Wrapper as AddToCartButton } from 'vtex.add-to-cart-button'
@@ -20,6 +21,7 @@ const CSS_HANDLES = [
   'specificationSectionTitle',
   'specificationSectionTitleWrapper',
   'specificationSectionTitleParagraph',
+  'specificationSectionWrapper',
   'specificationSectionContainer',
   'specificationGroupContainer',
   'specificationGroupName',
@@ -99,107 +101,119 @@ const SimilarProductComparison = () => {
     <div className={handles.similarProductComparison}>
       <div className={`${handles.specificationSectionTitle} flex tl items-start justify-start t-body c-on-base`}>
         <div className={handles.specificationSectionTitleWrapper}>
-          <p className={`lh-copy ${handles.specificationSectionTitleParagraph}`}>Compare similar products</p>
+          <p className={`lh-copy ${handles.specificationSectionTitleParagraph}`}>
+            <FormattedMessage id="store/product-comparison.title"/>
+          </p>
         </div>
       </div>
-      <div className={`flex ${handles.specificationSectionContainer}`}>
-        <div className={handles.navigationContainer}>
-          <div className={handles.navigationSpecificationValue}>
-            <span>Customer Rating</span>
-          </div>
-          <div className={handles.navigationSpecificationValue}>
-            <span>Price</span>
-          </div>
-          <div className={handles.navigationSpecificationValue}>
-            <span>Shipping</span>
-          </div>
-          <div className={handles.navigationSpecificationValue}>
-            <span>Sold by</span>
-          </div>
-          {filteredGroups.map((filteredGroup, filteredGroupIndex) => (
-            <div
-              className={handles.navigationGroupContainer}
-              key={filteredGroupIndex}
-            >
-              <h3 className={handles.navigationGroupName}>
-                {filteredGroup.originalName}
-              </h3>
-              {filteredGroup.specifications.map(
-                (specification, specificationIndex) => (
-                  <div
-                    className={handles.navigationSpecificationValue}
-                    key={specificationIndex}
-                  >
-                    <span className={handles.navigationSpecificationValueText}>{specification.originalName}</span>
-                  </div>
-                )
-              )}
+      <div className={handles.specificationSectionWrapper}>
+        <div className={`flex ${handles.specificationSectionContainer}`}>
+          <div className={handles.navigationContainer}>
+            <div className={handles.navigationSpecificationValue}>
+              <span>
+                <FormattedMessage id="store/product-comparison.navigation.rating"/>
+              </span>
             </div>
-          ))}
-        </div>
-        <div className={handles.productContainer}>
-          {filteredProducts.map((filteredProduct, filteredProductIndex) => (
-            <div
-              className={handles.productItemWrapper}
-              key={filteredProductIndex}
-            >
-              <div className={handles.productItemContainer}>
-                <a
-                  href={filteredProduct.link}
-                  className={`link c-link`}
-                >
-                  <div className={handles.productImageContainer}>
-                    <img
-                      className={`img w-80 mb3 ${handles.productImage}`}
-                      src={filteredProduct.imageUrl}
-                    />
-                  </div>
-                  <div className={handles.productNameContainer}>
-                    <span className={handles.productName}>
-                      {filteredProduct.productName}
+            <div className={handles.navigationSpecificationValue}>
+              <span>
+                <FormattedMessage id="store/product-comparison.navigation.price"/>
+              </span>
+            </div>
+            <div className={handles.navigationSpecificationValue}>
+              <span>
+                <FormattedMessage id="store/product-comparison.navigation.shipping"/>
+              </span>
+            </div>
+            <div className={handles.navigationSpecificationValue}>
+              <span>
+                <FormattedMessage id="store/product-comparison.navigation.sold-by"/>
+              </span>
+            </div>
+            {filteredGroups.map((filteredGroup, filteredGroupIndex) => (
+              <div
+                className={handles.navigationGroupContainer}
+                key={filteredGroupIndex}
+              >
+                <h3 className={handles.navigationGroupName}>
+                  {filteredGroup.originalName}
+                </h3>
+                {filteredGroup.specifications.map(
+                  (specification, specificationIndex) => (
+                    <div
+                      className={handles.navigationSpecificationValue}
+                      key={specificationIndex}
+                    >
+                      <span className={handles.navigationSpecificationValueText}>{specification.originalName}</span>
+                    </div>
+                  )
+                )}
+              </div>
+            ))}
+          </div>
+          <div className={handles.productContainer}>
+            {filteredProducts.map((filteredProduct, filteredProductIndex) => (
+              <div
+                className={handles.productItemWrapper}
+                key={filteredProductIndex}
+              >
+                <div className={handles.productItemContainer}>
+                  <a
+                    href={filteredProduct.link}
+                    className={`link c-link`}
+                  >
+                    <div className={handles.productImageContainer}>
+                      <img
+                        className={`img w-80 mb3 ${handles.productImage}`}
+                        src={filteredProduct.imageUrl}
+                      />
+                    </div>
+                    <div className={handles.productNameContainer}>
+                      <span className={handles.productName}>
+                        {filteredProduct.productName}
+                      </span>
+                    </div>
+                  </a>
+                  <AddToCartButton skuItems={filteredProduct.sku}/>
+                </div>
+
+                <div className={handles.specificationListing}>
+                  <div className={handles.specificationItem}>
+                    <span className={handles.specificationItemValue}>
+                      <RatingInline productId={filteredProduct.productId} />
                     </span>
                   </div>
-                </a>
-                <AddToCartButton skuItems={filteredProduct.sku}/>
-              </div>
-
-              <div className={handles.specificationListing}>
-                <div className={handles.specificationItem}>
-                  <span className={handles.specificationItemValue}>
-                    <RatingInline productId={filteredProduct.productId} />
-                  </span>
-                </div>
-                <div className={handles.specificationItem}>
-                  <span className={handles.specificationItemValue}>
-                    <FormattedCurrency value={filteredProduct.sellingPrice} />
-                  </span>
-                </div>
-                <div className={handles.specificationItem}>
-                  <span className={handles.specificationItemValue}>
-                    <Shipping skuId={filteredProduct.sku[0].id} sellerId={filteredProduct.sku[0].seller} />
-                  </span>
-                </div>
-                <div className={handles.specificationItem}>
-                  <span className={handles.specificationItemValue}>{filteredProduct.sellerName}</span>
-                </div>
-                {filteredProduct.specificationGroups.map((group, index) => (
-                  <div className={handles.specificationGroup} key={index}>
-                    <h3 className={handles.specificationGroupName}>
-                      {group.originalName}
-                    </h3>
-                    {group.specifications.map(
-                      (specification, specificationIndex) => (
-                        <Specification
-                          specification={specification}
-                          key={specificationIndex}
-                        />
-                      )
-                    )}
+                  <div className={handles.specificationItem}>
+                    <span className={handles.specificationItemValue}>
+                      <FormattedCurrency value={filteredProduct.sellingPrice} />
+                    </span>
                   </div>
-                ))}
+                  <div className={handles.specificationItem}>
+                    <span className={handles.specificationItemValue}>
+                      <Shipping skuId={filteredProduct.sku[0].id} sellerId={filteredProduct.sku[0].seller} />
+                    </span>
+                  </div>
+                  <div className={handles.specificationItem}>
+                    <span className={handles.specificationItemValue}>{filteredProduct.sellerName}</span>
+                  </div>
+                  {filteredProduct.specificationGroups.map((group, index) => (
+                    <div className={handles.specificationGroup} key={index}>
+                      <h3 className={handles.specificationGroupName}>
+                        {group.originalName}
+                      </h3>
+                      {group.specifications.map(
+                        (specification, specificationIndex) => (
+                          <Specification
+                            specification={specification}
+                            key={specificationIndex}
+                          />
+                        )
+                      )}
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </div>

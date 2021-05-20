@@ -1,8 +1,11 @@
 import React, { Fragment, useEffect, useReducer, FunctionComponent } from 'react'
-import { ApolloQueryResult } from 'apollo-client'
+import { FormattedMessage } from 'react-intl'
 import { useApolloClient } from 'react-apollo'
 import { useCssHandles } from 'vtex.css-handles'
+import { ApolloQueryResult } from 'apollo-client'
+
 import Stars from './Stars'
+
 import TotalReviewsByProductId from '../queries/totalReviewsByProductId.graphql'
 import AverageRatingByProductId from '../queries/averageRatingByProductId.graphql'
 
@@ -103,7 +106,7 @@ const RatingInline: FunctionComponent<RatingProps> = (props) => {
   return (
     <div className={`${handles.inlineContainer} review-summary mw8 center`}>
       {!state.hasTotal || !state.hasAverage ? null : state.total ===
-        0 ? (<span>No Rating</span>) : (
+        0 ? (<span><FormattedMessage id="store/product-comparison.product.no-rating"/></span>) : (
         <Fragment>
           <span className="t-heading-5 v-mid">
             <Stars rating={state.average} />

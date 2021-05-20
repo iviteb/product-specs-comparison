@@ -1,9 +1,11 @@
 import React, { useEffect, useState, useCallback, useRef } from 'react'
-import { useCssHandles } from 'vtex.css-handles'
+import { FormattedMessage } from 'react-intl'
 import { useApolloClient } from 'react-apollo'
-import getShippingEstimates from '../queries/getShippingEstimates.graphql'
+import { useCssHandles } from 'vtex.css-handles'
 import { useRuntime } from 'vtex.render-runtime'
+
 import ShippingItem from './ShippingItem'
+import getShippingEstimates from '../queries/getShippingEstimates.graphql'
 
 const classes = ['shippingEstimate']
 
@@ -12,7 +14,7 @@ const Shipping = ({skuId, sellerId}) => {
   const [shipping, setShipping] = useState({} as any)
   const handles = useCssHandles(classes)
   const { culture } = useRuntime()
-  const postalCodes = {ROU: '052357', BGR: '1797'}
+  const postalCodes = {ROU: '052357', BGR: '1797'} // hardcode a Romanian and Bulgarian postal code from the capitals
 
 
   const client = useApolloClient()
@@ -76,7 +78,9 @@ const Shipping = ({skuId, sellerId}) => {
   if (slaList.length === 0) {
     return(
       <div className={handles.shippingEstimate}>
-          <span>N/A</span>
+          <span>
+            <FormattedMessage id="store/product-comparison.product.no-shipping"/>
+          </span>
       </div>
     )
   }
