@@ -1,3 +1,0 @@
-query TotalReviewsByProductId2($productId: String!) {
-    totalReviewsByProductId2(productId: $productId) 
-}

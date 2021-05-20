@@ -2,9 +2,9 @@ import React, { Fragment, useEffect, useReducer, FunctionComponent } from 'react
 import { ApolloQueryResult } from 'apollo-client'
 import { useApolloClient } from 'react-apollo'
 import { useCssHandles } from 'vtex.css-handles'
-import Stars from './components/Stars'
-import TotalReviewsByProductId from './queries/totalReviewsByProductId.graphql'
-import AverageRatingByProductId from './queries/averageRatingByProductId.graphql'
+import Stars from './Stars'
+import TotalReviewsByProductId from '../queries/totalReviewsByProductId.graphql'
+import AverageRatingByProductId from '../queries/averageRatingByProductId.graphql'
 
 interface RatingProps {
   productId: string

@@ -1,3 +1,5 @@
+import { mapCatalogItemToCart } from 'vtex.add-to-cart-button'
+
 export const processGroup = (product: Product): any => {
   const filteredGroups = product.specificationGroups.filter((group) => {
     if (group.originalName === 'allSpecifications') {
@@ -9,7 +11,6 @@ export const processGroup = (product: Product): any => {
 
   return filteredGroups
 }
-
 
 export const processProduct = (product: Product, productRecommendations: any[]): any => {
 
@@ -32,6 +33,13 @@ export const processProduct = (product: Product, productRecommendations: any[]):
     return true
   })
 
+  const skuItem = mapCatalogItemToCart({
+    product,
+    selectedItem: product.items[0],
+    selectedSeller: product.items[0].sellers[0],
+    selectedQuantity: 1
+  })
+
   const filteredProducts = [{
     productId: product.productId,
     imageUrl: product.items[0].images[0].imageUrl ?? '',
@@ -40,6 +48,7 @@ export const processProduct = (product: Product, productRecommendations: any[]):
     sellingPrice: product.items[0].sellers[0].commertialOffer?.Price,
     sellerName: product.items[0].sellers[0].sellerName,
     specificationGroups: filteredGroups ?? [],
+    sku: skuItem
   }]
 
   let similarGroups: SpecificationGroup[] = []
@@ -61,11 +70,16 @@ export const processProduct = (product: Product, productRecommendations: any[]):
         return true
       })
 
-      console.log(specs)
-
       similarGroups.push({name: group.name, originalName: group.originalName, specifications: specs})
 
       return true
+    })
+
+    const skuItem = mapCatalogItemToCart({
+      product: productRecommendations[i],
+      selectedItem: productRecommendations[i].items[0],
+      selectedSeller: productRecommendations[i].items[0].sellers[0],
+      selectedQuantity: 1
     })
 
     const filteredRecommendation = {
@@ -76,6 +90,7 @@ export const processProduct = (product: Product, productRecommendations: any[]):
       sellingPrice: productRecommendations[i].items[0].sellers[0].commertialOffer?.Price,
       sellerName: productRecommendations[i].items[0].sellers[0].sellerName,
       specificationGroups: similarGroups ?? [],
+      sku: skuItem
     }
 
     filteredProducts.push(filteredRecommendation)

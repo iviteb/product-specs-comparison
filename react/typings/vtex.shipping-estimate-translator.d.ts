@@ -1,0 +1,1 @@
+declare module 'vtex.shipping-estimate-translator/TranslateEstimate'

@@ -2,6 +2,7 @@
   display: inline-flex;
   gap: 1rem;
   overflow-x: scroll;
+  padding-left: 1rem;
 }
 
 .productItemContainer {
@@ -10,13 +11,15 @@
 
 .navigationContainer {
   min-width: 300px;
-  margin-top: 380px;
+  margin-top: 298px;
 }
 
 .productImage {
   display: block;
   margin-left: auto;
   margin-right: auto;
+  width: 144px;
+  height: 144px;
 }
 
 .specificationGroupName {
@@ -24,7 +27,7 @@
 }
 
 .productImageContainer {
-  height: 285px;
+  height: 185px;
 }
 
 .navigationSpecificationValue:nth-child(odd) {
@@ -47,11 +50,39 @@
   margin-top: 20px;
 }
 
+.similarProductComparison {
+  flex-direction: column;
+}
+
+.specificationSectionTitle {
+  max-width: 1470px;
+  margin: 40px auto 0 auto;
+  width: 100%;
+}
+
+.specificationSectionTitleWrapper {
+  width: 100%;
+}
+
+.specificationSectionTitleParagraph {
+  font: normal normal bold 19px/23px Roboto;
+  padding-bottom: 9px;
+  border-bottom: 1px solid #E6E6E6;
+  margin: 0 0 20px 0;
+  color: #000;
+  page-break-before: always;
+}
+
 @media only screen and (max-width: 639px) {
   .navigationContainer {
     min-width: 150px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+
+  .productContainer {
+    gap: 0.5rem;
+    padding-left: 0.5rem;
   }
 }

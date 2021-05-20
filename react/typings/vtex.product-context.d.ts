@@ -11,6 +11,7 @@ interface Product {
 
 interface Sku {
   name: string
+  itemId: string
   images: Image[]
   sellers: Seller[]
 }
