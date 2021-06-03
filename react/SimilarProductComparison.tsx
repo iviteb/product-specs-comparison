@@ -8,7 +8,7 @@ import { useCssHandles } from 'vtex.css-handles'
 import useProduct from 'vtex.product-context/useProduct'
 import { Spinner } from 'vtex.styleguide'
 
-import { processProduct, processGroup } from './utils/utils'
+import { processProduct } from './utils/utils'
 import Specification from './components/Specification'
 import Shipping from './components/Shipping'
 import RatingInline from './components/RatingInline'
@@ -69,9 +69,6 @@ const SimilarProductComparison = () => {
   const [filteredProducts, setFilteredProducts] = useState<
     FilteredProduct[]
   >([])
-  const [filteredGroups, setFilteredGroups] = useState<
-    SpecificationGroup[]
-  >([])
   const handles = useCssHandles(CSS_HANDLES)
   const { product } = useProduct()
   
@@ -89,10 +86,7 @@ const SimilarProductComparison = () => {
     if (!data || !product) return
 
     const filteredProduct = processProduct(product, data.productRecommendations)
-    const filteredGroup = processGroup(product)
-
     setFilteredProducts(filteredProduct)
-    setFilteredGroups(filteredGroup)
   }, [product, data])
 
   if (loading) return <Spinner />
@@ -129,7 +123,7 @@ const SimilarProductComparison = () => {
                 <FormattedMessage id="store/product-comparison.navigation.sold-by"/>
               </span>
             </div>
-            {filteredGroups.map((filteredGroup, filteredGroupIndex) => (
+            {filteredProducts[0].specificationGroups.map((filteredGroup, filteredGroupIndex) => (
               <div
                 className={handles.navigationGroupContainer}
                 key={filteredGroupIndex}

@@ -8,3 +8,7 @@
 }
 .star--empty {
 }
+
+.review__rating__inline--count {
+  padding-left: 4px;
+}

@@ -5,6 +5,7 @@ import { useCssHandles } from 'vtex.css-handles'
 import { ApolloQueryResult } from 'apollo-client'
 
 import Stars from './Stars'
+import styles from '../styles/rating.css'
 
 import TotalReviewsByProductId from '../queries/totalReviewsByProductId.graphql'
 import AverageRatingByProductId from '../queries/averageRatingByProductId.graphql'
@@ -111,8 +112,10 @@ const RatingInline: FunctionComponent<RatingProps> = (props) => {
           <span className="t-heading-5 v-mid">
             <Stars rating={state.average} />
           </span>
-          <span className="review__rating__inline--count dib v-mid">
-            ({state.total})  
+          <span className={`${styles['review__rating__inline--count']} dib v-mid`}>
+            {state.average} ({state.total} {state.total === 1 
+            ? <FormattedMessage id="store/product-comparison.product.number-of-reviews-singular"/>
+            : <FormattedMessage id="store/product-comparison.product.number-of-reviews-plural"/>})  
           </span>
         </Fragment>
       )}

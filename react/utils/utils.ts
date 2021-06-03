@@ -1,34 +1,13 @@
 import { mapCatalogItemToCart } from 'vtex.add-to-cart-button'
 
-export const processGroup = (product: Product): any => {
-  const filteredGroups = product.specificationGroups.filter((group) => {
-    if (group.originalName === 'allSpecifications') {
-      return false
-    }
-
-    return true
-  })
-
-  return filteredGroups
-}
-
 export const processProduct = (product: Product, productRecommendations: any[]): any => {
 
   const portalUrl = 'https://portal.vtexcommercestable.com.br'
 
-  var allGroupsArr: String[] = []
-  var allSpecificationsArr: String[] = []
-
   const filteredGroups = product.specificationGroups.filter((group) => {
     if (group.originalName === 'allSpecifications') {
       return false
     }
-
-    group.specifications.filter((specification) => {
-      allSpecificationsArr.push(specification.originalName)
-    })
-
-    allGroupsArr.push(group.originalName)
 
     return true
   })
@@ -51,28 +30,24 @@ export const processProduct = (product: Product, productRecommendations: any[]):
     sku: skuItem
   }]
 
-  let similarGroups: SpecificationGroup[] = []
-
   for (let i = 0; i<=productRecommendations.length - 1; i++) {
+    let similarGroups: SpecificationGroup[] = []
 
     if (productRecommendations[i].specificationGroups.length === 0) continue
 
-    productRecommendations[i].specificationGroups.filter((group) => {
-      if (group.originalName === 'allSpecifications' || !allGroupsArr.includes(group.originalName)) {
-        return false
-      }
-
-      const specs = group.specifications.filter(specification => {
-        if (!allSpecificationsArr.includes(specification.originalName)) {
-          return false
+    filteredGroups.forEach(main => {
+      const currentGroup = productRecommendations[i].specificationGroups.find(group => group.originalName == main.originalName)
+      let currentSpecsArr: Specification[] = []
+      main.specifications.forEach(specification => {
+        let found = currentGroup.specifications.find(spec => spec.originalName == specification.originalName)
+        if (found) {
+          currentSpecsArr.push(found) 
+        } else {
+          currentSpecsArr.push({name: "", originalName: "", values: [""]})
         }
-
-        return true
       })
 
-      similarGroups.push({name: group.name, originalName: group.originalName, specifications: specs})
-
-      return true
+      similarGroups.push({name: currentGroup.name, originalName: currentGroup.originalName, specifications: currentSpecsArr})
     })
 
     const skuItem = mapCatalogItemToCart({

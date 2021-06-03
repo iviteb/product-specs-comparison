@@ -7,5 +7,7 @@
   "store/product-comparison.product.no-rating": "No rating info",
   "store/product-comparison.product.no-shipping": "No shipping info",
   "store/product-comparison.product.shipping.no-price": "N/A",
-  "store/product-comparison.product.shipping.free-shipping": "Free shipping"
+  "store/product-comparison.product.shipping.free-shipping": "Free shipping",
+  "store/product-comparison.product.number-of-reviews-plural": "reviews",
+  "store/product-comparison.product.number-of-reviews-singular": "review"
 }
