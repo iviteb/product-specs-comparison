@@ -7,7 +7,7 @@
   "mustUpdateAt": "2018-01-04",
   "categories": [],
   "peerDependencies": {
-    "alleop.alleop-reviews-and-ratings": "5.x"
+    "vtex.reviews-and-ratings": "3.x"
   },
   "dependencies": {
     "vtex.native-types": "0.x",
@@ -36,6 +36,9 @@
     "store": "0.x",
     "docs": "0.x",
     "react": "3.x"
+  },
+  "scripts": {
+    "postreleasy": "vtex publish --verbose"
   },
   "credentialType": "absolute",
   "$schema": "https://raw.githubusercontent.com/vtex/node-vtex-api/master/gen/manifest.schema"
